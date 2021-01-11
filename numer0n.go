@@ -72,10 +72,19 @@ func getCPUNumbers(cpu *userInfo) {
 	引数 : cpu *userInfo : cpuの情報を格納する構造体
 	返り値 : なし
 	*/
+	numbers := [3]int{-1,-1,-1}
 	for  i := 0; i < 3; i++{
-		rand.Seed(time.Now().UnixNano())
-		 cpu.numbers[i] = rand.Intn(10)
+		for {
+			rand.Seed(time.Now().UnixNano())
+			n := rand.Intn(10)
+			if arrayContains(numbers,n) == false{
+				numbers[i] = n
+				break
+			}
+
+		}
 	}
+	cpu.numbers = numbers
 } 
 
 func cpuGuessNumber(enemyNumber [3]int) (bool){
@@ -86,11 +95,17 @@ func cpuGuessNumber(enemyNumber [3]int) (bool){
 	*/
 
 	fmt.Println("相手の3桁の数字を予想してください")
-	var selectNumber [3]int
+	selectNumber :=[3]int{-1,-1,-1}
 	// 何らかの手法で相手の数を求める(最初はランダムで...)
 	for  i := 0; i < 3; i++{
-		rand.Seed(time.Now().UnixNano())
-		selectNumber[i] = rand.Intn(10)
+		for {
+			rand.Seed(time.Now().UnixNano())
+			n := rand.Intn(10)
+			if arrayContains(selectNumber,n) == false{
+				selectNumber[i] = n
+				break
+			}
+		}
 		fmt.Printf("%d",selectNumber[i])
 	}
 	fmt.Println()
@@ -190,7 +205,6 @@ func main() {
 	fmt.Println("ーーーーーーーーーーーーーーー")
 	fmt.Println("game Start!!!")
 	fmt.Println("先攻はあなたです")
-	fmt.Println(computer.numbers)
 
 	// CPUとユーザーが交互に数値を当て合う処理
 	i := 1
